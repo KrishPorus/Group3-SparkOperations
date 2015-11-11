@@ -1,3 +1,5 @@
+package edu.asu.cse512;
+
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 import org.apache.spark.SparkConf;
@@ -20,7 +22,7 @@ public class JoinQuery {
     public static void main(String[] args) {
         //Handling wrong number of parameters
         if(args.length < 3){
-            System.out.println("Usage: JoinQuery arg1 arg2 arg3");
+            System.out.println("Usage: edu.asu.cse512.JoinQuery arg1 arg2 arg3");
             System.out.println("arg1: input dataset A file path[Target Recntagles or points]");
             System.out.println("arg2: input dataset B file path [Query Recntagles]");
             System.out.println("arg3: output file name and path");
@@ -28,7 +30,7 @@ public class JoinQuery {
         }
 
         //Creating and setting sparkconf
-        SparkConf sparkConf = new SparkConf().setAppName("Group3-JoinQuery");
+        SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.JoinQuery");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars

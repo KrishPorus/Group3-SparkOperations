@@ -31,7 +31,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Union</mainClass>
+                            <mainClass>edu.asu.cse512.Union</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -10,7 +10,7 @@
     <groupId>cse512-15fall-project</groupId>
     <artifactId>convexHull</artifactId>
     <version>0.1</version>
-    <name>convexHull</name>
+    <name>edu.asu.cse512.convexHull</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>convexHull</mainClass>
+                            <mainClass>edu.asu.cse512.convexHull</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

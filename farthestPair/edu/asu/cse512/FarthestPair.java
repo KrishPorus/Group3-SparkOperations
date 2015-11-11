@@ -1,16 +1,14 @@
+package edu.asu.cse512;
 
-import com.typesafe.config.ConfigException;
 import com.vividsolutions.jts.algorithm.ConvexHull;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
-import scala.util.parsing.combinator.testing.Str;
 
 import java.io.Serializable;
 import java.lang.String;
@@ -48,14 +46,14 @@ public class FarthestPair
 
         //Handle invalid arguments..
         if(args.length < 2){
-            System.out.println("Usage: FarthestPair arg1 arg2");
+            System.out.println("Usage: edu.asu.cse512.FarthestPair arg1 arg2");
             System.out.println("arg1: input dataset A file path [points]");
             System.out.println("arg2: output file name and path");
             System.exit(1);
         }
 
         //Creating and setting sparkconf
-        SparkConf sparkConf = new SparkConf().setAppName("Group3-FarthestPair");
+        SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.FarthestPair");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars

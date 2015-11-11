@@ -1,4 +1,4 @@
-/*
+package edu.asu.cse512;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -31,14 +30,14 @@ public final class ClosestPair {
 
     //Handle invalid arguments..
     if(args.length < 2){
-      System.out.println("Usage: ClosestPair arg1 arg2");
+      System.out.println("Usage: edu.asu.cse512.ClosestPair arg1 arg2");
       System.out.println("arg1: input dataset A file path [points]");
       System.out.println("arg2: output file name and path");
       System.exit(1);
     }
 
     //Creating and setting sparkconf
-    SparkConf sparkConf = new SparkConf().setAppName("Group3-ClosestPair");
+    SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.ClosestPair");
     JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
     //Adding external jars

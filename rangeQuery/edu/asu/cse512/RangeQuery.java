@@ -1,8 +1,7 @@
+package edu.asu.cse512;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
@@ -63,7 +62,7 @@ public class RangeQuery {
 		}
 
 		//Creating and setting sparkconf
-		SparkConf sparkConf = new SparkConf().setAppName("Group3-RangeQuery");
+		SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.RangeQuery");
 		JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
 		JavaRDD<String> rqfile = sc.textFile(args[0]);

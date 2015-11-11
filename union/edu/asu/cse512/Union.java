@@ -1,14 +1,12 @@
-
+package edu.asu.cse512;
 
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
-import org.apache.hadoop.fs.*;
 import org.apache.spark.api.java.*;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
 
-import java.io.*;
 import java.util.*;
 
 class Rectangle{
@@ -43,14 +41,14 @@ public class Union {
 
         //Handle invalid arguments..
         if(args.length < 2){
-            System.out.println("Usage: Union arg1 arg2");
+            System.out.println("Usage: edu.asu.cse512.Union arg1 arg2");
             System.out.println("arg1: input dataset A file path [points]");
             System.out.println("arg2: output file name and path");
             System.exit(1);
         }
 
         //Creating and setting sparkconf
-        SparkConf sparkConf = new SparkConf().setAppName("Group3-Union");
+        SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.Union");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars
@@ -77,7 +75,7 @@ public class Union {
             //
         }
         if(un!=null)
-            System.out.println("Union soln: " + un.toString());
+            System.out.println("edu.asu.cse512.Union soln: " + un.toString());
 
         JavaRDD<Coordinate> coords =    sc.parallelize(Arrays.asList(un.getCoordinates()),1);
         JavaRDD<String> output = coords.map(new Function<Coordinate, String>() {

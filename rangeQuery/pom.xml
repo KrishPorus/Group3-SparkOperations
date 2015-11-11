@@ -32,7 +32,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>RangeQuery</mainClass>
+                            <mainClass>edu.asu.cse512.RangeQuery</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

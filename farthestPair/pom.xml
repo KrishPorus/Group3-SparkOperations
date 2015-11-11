@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>FarthestPair</mainClass>
+                            <mainClass>edu.asu.cse512.FarthestPair</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
