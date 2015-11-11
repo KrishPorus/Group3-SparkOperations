@@ -20,9 +20,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public final class ClosestPair {
 
@@ -91,6 +89,15 @@ public final class ClosestPair {
       }
     });
     List<ClosestPairPoint> closesPairPoints = closestPair.collect();
+    Collections.sort(closesPairPoints, new Comparator<ClosestPairPoint>() {
+      public int compare(ClosestPairPoint closestPairPoint, ClosestPairPoint t1) {
+        int result = Double.compare(closestPairPoint.getxCoord(), t1.getxCoord());
+        if (result == 0) {
+          result = Double.compare(closestPairPoint.getyCoord(), t1.getyCoord());
+        }
+        return result;
+      }
+    });
     List<String> stringClosestPair = new ArrayList<String>();
     for (ClosestPairPoint p : closesPairPoints) {
       stringClosestPair.add(p.getxCoord() + "," + p.getyCoord());

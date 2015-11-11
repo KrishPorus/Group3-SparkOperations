@@ -9,7 +9,7 @@
     </parent>
     <groupId>cse512-15fall-project</groupId>
     <artifactId>union</artifactId>
-    <version>0.1</version>
+    <!-- <version>0.1</version> -->
     <name>union</name>
     <url>http://maven.apache.org</url>
     <properties>
