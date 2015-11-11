@@ -32,8 +32,10 @@ public class convexHull
 
 			//Adding external jars
 			sc.addJar("lib/jts-1.13.jar");
-
+		
+		//Creating an RDD from a text file
     	JavaRDD<String> lines = sc.textFile(args[0]);
+    	//Using mapPartitions function to find convex hull points in distributed environment
     	JavaRDD<Coordinate> hullPointsRDD = lines.mapPartitions(new ConvexH());
     	List<Coordinate> hullPointsList = hullPointsRDD.collect();
     	Coordinate[] inputArray = new Coordinate[hullPointsList.size()];
@@ -42,6 +44,7 @@ public class convexHull
     		inputArray[j] = c;
     		j++;
     	}
+    	//Finding convex hull points on the final subset of points retrieved from distributed environment
     	GeometryFactory geoFactory1 = new GeometryFactory();
     	MultiPoint mPoint1 = geoFactory1.createMultiPoint(inputArray);
     	Geometry geo1 = mPoint1.convexHull();
@@ -50,6 +53,7 @@ public class convexHull
     	Coordinate[] convexHullFinalResult = Arrays.copyOf(convexHullResult, length-1);
     	Arrays.sort(convexHullFinalResult);
     	
+    	//Converting the list of coordinates into Coordinate RDD
     	JavaRDD<Coordinate> convexHullResultRDD = sc.parallelize(Arrays.asList(convexHullFinalResult), 1);
     	JavaRDD<String> convexHullResultString = convexHullResultRDD.repartition(1).map(new Function<Coordinate, String>(){
 			public String call(Coordinate hullPoint) throws Exception {
@@ -58,17 +62,20 @@ public class convexHull
 			}
     		
     	});
+    	//Save the String RDD into text file. Using repartition(1) to preserve the order of coordinates
     	convexHullResultString.repartition(1).saveAsTextFile(args[1]);
     }
 }
 
-
+//Function to find convex hull points in distributed environment
 @SuppressWarnings("serial")
 class ConvexH implements FlatMapFunction<Iterator<String>, Coordinate>
 {
 	public Iterable<Coordinate> call(Iterator<String> coordinatesIterator) throws Exception {
 		// TODO Auto-generated method stub
 		List<Coordinate> coorList = new ArrayList<Coordinate>();
+		
+		//Retrieving points from JavaRDD<String> and storing it in a list
 		while(coordinatesIterator.hasNext()){
 			String[] temp = coordinatesIterator.next().split(",");
 			coorList.add(new Coordinate(Double.parseDouble(temp[0]), Double.parseDouble(temp[1])));
@@ -79,7 +86,7 @@ class ConvexH implements FlatMapFunction<Iterator<String>, Coordinate>
     		coorArray[i] = c;
     		i++;
     	}
-    	
+    	//Using Geometry class of JTS library to find convex hull points
     	GeometryFactory geoFactory = new GeometryFactory();
     	MultiPoint mPoint = geoFactory.createMultiPoint(coorArray);
     	Geometry geo = mPoint.convexHull();
