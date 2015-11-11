@@ -51,8 +51,11 @@ public class convexHull
     	MultiPoint mPoint1 = geoFactory1.createMultiPoint(inputArray);
     	Geometry geo1 = mPoint1.convexHull();
     	Coordinate[] convexHullResult = geo1.getCoordinates();
+    	int length = convexHullResult.length;
+    	Coordinate[] convexHullFinalResult = Arrays.copyOf(convexHullResult, length-1);
+    	Arrays.sort(convexHullFinalResult);
     	
-    	JavaRDD<Coordinate> convexHullResultRDD = sc.parallelize(Arrays.asList(convexHullResult), 1);
+    	JavaRDD<Coordinate> convexHullResultRDD = sc.parallelize(Arrays.asList(convexHullFinalResult), 1);
     	JavaRDD<String> convexHullResultString = convexHullResultRDD.repartition(1).map(new Function<Coordinate, String>(){
 			public String call(Coordinate hullPoint) throws Exception {
 				// TODO Auto-generated method stub
