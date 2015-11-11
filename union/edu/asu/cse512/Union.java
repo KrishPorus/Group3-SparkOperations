@@ -58,8 +58,6 @@ public class Union {
 
         JavaRDD<Polygon> rects = data.map(new ReadInput());
 
-        rects.foreach(new MyPrinter());
-
         JavaRDD<Geometry> union = rects.mapPartitions(new ComputeUnion());
 
         List<Geometry> unions = union.collect();
@@ -74,10 +72,28 @@ public class Union {
             un = un.union(x);
             //
         }
-        if(un!=null)
-            System.out.println("edu.asu.cse512.Union soln: " + un.toString());
+        Coordinate[] arr = un.getCoordinates();
 
-        JavaRDD<Coordinate> coords =    sc.parallelize(Arrays.asList(un.getCoordinates()),1);
+        Arrays.sort(arr, new Comparator<Coordinate>() {
+            public int compare(Coordinate c1, Coordinate c2) {
+                if(c1.x == c2.x){
+                    if(c1.y == c2.y)
+                        return 0;
+                    else if(c1.y > c2.y)
+                        return 1;
+                    else
+                        return -1;
+
+                }
+                else if (c1.x > c2.x)
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+
+
+        JavaRDD<Coordinate> coords =    sc.parallelize(Arrays.asList(arr),1);
         JavaRDD<String> output = coords.map(new Function<Coordinate, String>() {
             public String call(Coordinate coordinate) throws Exception {
                 return coordinate.x + "," + coordinate.y;
@@ -121,12 +137,6 @@ public class Union {
             mySet.add(geo);
             //Iterator<Geometry> itr = mySet.iterator();
             return mySet;
-        }
-    }
-
-    private static class MyPrinter implements VoidFunction<Polygon> {
-        public void call(Polygon polygon) throws Exception {
-            System.out.println(polygon.toString());
         }
     }
 }
