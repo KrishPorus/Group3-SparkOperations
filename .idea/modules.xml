@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Group3-SparkOperations.iml" filepath="$PROJECT_DIR$/Group3-SparkOperations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/closestPair/closestPair.iml" filepath="$PROJECT_DIR$/closestPair/closestPair.iml" />
+      <module fileurl="file://$PROJECT_DIR$/convexHull/convexHull.iml" filepath="$PROJECT_DIR$/convexHull/convexHull.iml" />
+      <module fileurl="file://$PROJECT_DIR$/farthestPair/farthestPair.iml" filepath="$PROJECT_DIR$/farthestPair/farthestPair.iml" />
+      <module fileurl="file://$PROJECT_DIR$/joinQuery/joinQuery.iml" filepath="$PROJECT_DIR$/joinQuery/joinQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rangeQuery/rangeQuery.iml" filepath="$PROJECT_DIR$/rangeQuery/rangeQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/union/union.iml" filepath="$PROJECT_DIR$/union/union.iml" />
+    </modules>
+  </component>
+</project>
