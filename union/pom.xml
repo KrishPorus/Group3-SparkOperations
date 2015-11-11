@@ -24,6 +24,7 @@
         </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>edu/asu/cse512</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
