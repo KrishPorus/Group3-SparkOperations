@@ -17,10 +17,19 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.10</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
     </dependencies>
 
@@ -33,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.asu.cse512.JoinQuery</mainClass>
+                            <mainClass>edu.asu.cse512.Join</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

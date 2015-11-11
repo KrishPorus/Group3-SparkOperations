@@ -8,21 +8,23 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class JoinQuery {
+public class Join {
 
     public static void main(String[] args) {
         //Handling wrong number of parameters
         if(args.length < 3){
-            System.out.println("Usage: edu.asu.cse512.JoinQuery arg1 arg2 arg3");
+            System.out.println("Usage: edu.asu.cse512.Join arg1 arg2 arg3");
             System.out.println("arg1: input dataset A file path[Target Recntagles or points]");
             System.out.println("arg2: input dataset B file path [Query Recntagles]");
             System.out.println("arg3: output file name and path");
@@ -30,14 +32,13 @@ public class JoinQuery {
         }
 
         //Creating and setting sparkconf
-        SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.JoinQuery");
+        SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.Join");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars
         //sc.addJar("target/dds-1.0-SNAPSHOT.jar");
         //sc.addJar("lib/jts-1.13.jar");
         //sc.addJar("lib/guava-18.0.jar");
-
 
         //Read from HDFS, the query and the target files
         JavaRDD<String> targetFile = sc.textFile(args[0]);
@@ -85,7 +86,35 @@ public class JoinQuery {
         });
 
         //combine the pairs by key, to form list of query to target mappings
-        JavaPairRDD<Integer, Iterable<Integer>> toPrint = result.groupByKey();
+        JavaPairRDD<Integer, Iterable<Integer>> toPrint = result.combineByKey(new Function<Integer, Iterable<Integer>>() {
+            //Combiner
+            public Iterable<Integer> call(Integer integer) throws Exception {
+                List<Integer> list = new ArrayList<Integer>();
+                list.add(integer);
+                return list;
+            }
+        }, new Function2<Iterable<Integer>, Integer, Iterable<Integer>>() {
+            //merge values
+            public Iterable<Integer> call(Iterable<Integer> integers, Integer integer) throws Exception {
+                List<Integer> list = new ArrayList<Integer>();
+                for(Integer id: integers)
+                    list.add(id);
+                list.add(integer);
+                Collections.sort(list);
+                return list;
+            }
+        }, new Function2<Iterable<Integer>, Iterable<Integer>, Iterable<Integer>>() {
+            //merge combiners
+            public Iterable<Integer> call(Iterable<Integer> integers, Iterable<Integer> integers2) throws Exception {
+                List list = new ArrayList();
+                for(Integer id: integers)
+                    list.add(id);
+                for(Integer id: integers2)
+                    list.add(id);
+                Collections.sort(list);
+                return list;
+            }
+        });
         JavaRDD<String> filePrint = toPrint.flatMap(new FlatMapFunction<Tuple2<Integer, Iterable<Integer>>, String>() {
             public Iterable<String> call(Tuple2<Integer, Iterable<Integer>> integerIterableTuple2) throws Exception {
                 List<String> res = new ArrayList<String>();
@@ -106,14 +135,14 @@ public class JoinQuery {
             }
         }, true, 1);
 
-        //User below code for debugging to print the output to local console
+        //User below code only for debugging to print the output to local console
         //List<String> resFinal = filePrint.collect();
         //for(String res: resFinal){
         //    System.out.println(res);
         //}
 
         //Save output in text file to user provided location from third argument
-        System.out.println("Saving the output in:"+args[2]);
+        //System.out.println("Saving the output in:"+args[2]);
         filePrint.saveAsTextFile(args[2]);
     }
 
@@ -137,8 +166,6 @@ public class JoinQuery {
             return r;
         }
     }
-
-
 }
 
 interface GeometryWrapper {
