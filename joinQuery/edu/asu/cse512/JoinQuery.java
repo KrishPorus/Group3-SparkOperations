@@ -34,9 +34,9 @@ public class JoinQuery {
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars
-        sc.addJar("target/dds-1.0-SNAPSHOT.jar");
-        sc.addJar("lib/jts-1.13.jar");
-        sc.addJar("lib/guava-18.0.jar");
+        //sc.addJar("target/dds-1.0-SNAPSHOT.jar");
+        //sc.addJar("lib/jts-1.13.jar");
+        //sc.addJar("lib/guava-18.0.jar");
 
 
         //Read from HDFS, the query and the target files

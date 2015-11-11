@@ -39,7 +39,7 @@ public final class ClosestPair {
     JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
     //Adding external jars
-    ctx.addJar("lib/jts-1.13.jar");
+    //ctx.addJar("lib/jts-1.13.jar");
 
     //Read from HDFS
     JavaRDD<String> lines = ctx.textFile(args[0]);

@@ -99,6 +99,6 @@ public class RangeQuery {
 			}
 		});
 
-		filter.repartition(1).saveAsTextFile(args[3]);
+		filter.repartition(1).saveAsTextFile(args[2]);
 	}
 }

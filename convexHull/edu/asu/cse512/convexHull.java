@@ -31,7 +31,7 @@ public class convexHull
 			JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
 			//Adding external jars
-			sc.addJar("lib/jts-1.13.jar");
+			//sc.addJar("lib/jts-1.13.jar");
 
     	JavaRDD<String> lines = sc.textFile(args[0]);
     	JavaRDD<Coordinate> hullPointsRDD = lines.mapPartitions(new ConvexH());

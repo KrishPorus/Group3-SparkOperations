@@ -57,7 +57,7 @@ public class FarthestPair
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
         //Adding external jars
-        sc.addJar("lib/jts-1.13.jar");
+        //sc.addJar("lib/jts-1.13.jar");
 
         JavaRDD<String> textFile = sc.textFile(args[0]);
         JavaRDD<Coordinate> coordinates = textFile.flatMap(
