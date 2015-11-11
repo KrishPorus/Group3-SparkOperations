@@ -33,7 +33,11 @@ class PointPair implements Serializable{
         return pointDistance;
     }
     public String getCoordinates() {
-    	return p1.x +","+ p1.y +"\n" +p2.x+","+p2.y;
+        if (p1.compareTo(p2) == -1) {
+            return p1.x + "," + p1.y + "\n" + p2.x + "," + p2.y;
+        } else {
+            return p2.x + "," + p2.y + "\n" + p1.x + "," + p1.y;
+        }
     }
     public void setPointDistance(double pointDistance) {
         this.pointDistance = pointDistance;
