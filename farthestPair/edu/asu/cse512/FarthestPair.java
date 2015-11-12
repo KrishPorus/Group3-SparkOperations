@@ -26,7 +26,10 @@ class PointPair implements Serializable{
         this.p2 = p2;
     }
     public double distance() {
-        return p1.distance(p2);
+        double xDiff = p1.x - p2.x;
+        double yDiff = p1.y - p2.y;
+        double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
+        return distance;
     }
     
     public double getPointDistance() {
@@ -80,7 +83,6 @@ public class FarthestPair
         JavaRDD<Coordinate> finalPoints = reducedPoints.mapPartitions(new myConvexHull());
         List<Coordinate> convexHullPoints = finalPoints.collect();
         Coordinate[] chPoints = convexHullPoints.toArray(new Coordinate[convexHullPoints.size()]);
-        Coordinate p1,p2;
         List<PointPair> allPairs = new ArrayList<PointPair>();
 
         // Form all pairs of Points
@@ -90,7 +92,7 @@ public class FarthestPair
                 allPairs.add(obj);
             }
         }
-        // Distribute poitns to workers and calculate the distance
+        // Distribute points to workers and calculate the distance
         JavaRDD<PointPair> pointPairs = sc.parallelize(allPairs);
         JavaRDD<PointPair> farthestPair = pointPairs.mapPartitions(new CalculateDistance());
         List<PointPair> farthestPointPairs = farthestPair.collect();
@@ -99,16 +101,10 @@ public class FarthestPair
         PointPair result = null;
         while (itr.hasNext()) {
             PointPair obj = itr.next();
-            if (obj == null) {
-                System.out.println("Hello world");
-            }
             if (obj.getPointDistance() > maxDistance) {
                 maxDistance = obj.getPointDistance();
                 result = obj;
             }
-        }
-        if (result == null) {
-            System.out.println("Result object is null");
         }
         ArrayList<String> listOfPoints = new ArrayList();
         listOfPoints.add(result.getCoordinates());
@@ -158,7 +154,7 @@ public class FarthestPair
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("Size :: " + farthestPair.size());
+            //System.out.println("Size :: " + farthestPair.size());
             return farthestPair;
         }
     }
