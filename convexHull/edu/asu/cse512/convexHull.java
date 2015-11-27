@@ -27,7 +27,7 @@ public class convexHull
 			}
 
 			//Creating and setting sparkconf
-			SparkConf sparkConf = new SparkConf().setAppName("Group3-ConvexHull");
+			SparkConf sparkConf = new SparkConf().setAppName("Group3-edu.asu.cse512.ConvexHull");
 			JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
 			//Adding external jars
@@ -56,7 +56,7 @@ public class convexHull
     	JavaRDD<Coordinate> convexHullResultRDD = sc.parallelize(Arrays.asList(convexHullFinalResult), 1);
     	JavaRDD<String> convexHullResultString = convexHullResultRDD.repartition(1).map(new Function<Coordinate, String>(){
 			public String call(Coordinate hullPoint) throws Exception {
-				// TODO Auto-generated method stub
+
 				return hullPoint.x+","+hullPoint.y;
 			}
     		
